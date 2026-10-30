@@ -23,6 +23,7 @@ assets/hub.js                 le paquet compilé (esbuild), servi tel quel par G
 assets/style.css, theme.js    gnosix.ds : couleurs, thème clair/sombre, encadrés
 tools/in-gnu6.mjs             sync <révision> | check : la copie du moteur et son manifeste
 tools/build.mjs               vérifie la copie, puis compile src/hub.ts en assets/hub.js
+tools/head.py                 canonique, hreflang, aperçu de partage (assets/og*.png), sitemap.xml
 ```
 
 ## Compiler

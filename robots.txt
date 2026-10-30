@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://gnu6dotlive.github.io/sitemap.xml
