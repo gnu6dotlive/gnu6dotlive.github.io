@@ -1,0 +1,8 @@
+{
+  "name": "gnu6dotlive-hub",
+  "private": true,
+  "type": "module",
+  "description": "Le hub gnu6dotlive.github.io : une scène [in.gnu6] (vendor/in.gnu6) projetée en PixiJS (la matière) et en DOM (le texte, les liens)",
+  "scripts": { "build": "node tools/build.mjs", "check": "node tools/in-gnu6.mjs check" },
+  "devDependencies": { "esbuild": "0.28.2", "pixi.js": "8.22.0" }
+}

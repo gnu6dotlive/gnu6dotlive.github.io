@@ -1,0 +1,110 @@
+/* Le hub. Sans JavaScript (ou sur écran étroit) : une liste de cartes, puis la liste des liens et de
+   leurs preuves. Avec la scène (html.hub-live) : les mêmes cartes, placées par le moteur [in.gnu6]
+   au-dessus d'une toile PixiJS qui peint les plaques et les liens. */
+
+.hub-main { max-width: 1140px; margin: 0 auto; padding: 0 2rem 3rem; }
+.hub-intro { padding-top: 2.5rem; }
+.hub-fiche { display: none; }
+html.hub-live .hub-main { position: relative; }
+html.hub-live .hub-intro { max-width: calc(100% - 27rem); min-height: 13rem; }
+/* la fiche flotte à droite de l'introduction : son contenu change, la scène ne bouge pas */
+html.hub-live .hub-fiche {
+  display: block;
+  position: absolute;
+  top: 2.5rem;
+  right: 2rem;
+  width: 24rem;
+  z-index: 5;
+  padding: 1rem 1.125rem;
+  background: var(--ds-pure-white);
+  border: 1px solid var(--ds-hairline);
+  border-top: 3px solid var(--ds-signal-orange-700);
+  border-radius: 10px;
+  font-size: .875rem;
+  line-height: 1.5;
+}
+html.hub-live .hub-fiche[data-vide="1"] { border-top-color: var(--ds-hairline); color: var(--ds-slate); }
+.fiche-titre { margin: 0 0 .25rem; font-weight: 700; font-size: 1rem; }
+.fiche-titre a { color: var(--ds-anthracite); }
+.fiche-phrase { margin: 0 0 .5rem; color: var(--ds-slate); }
+.fiche-liens { margin: 0; padding-left: 1.1rem; font-size: .8125rem; }
+.fiche-liens li { margin: .15rem 0; }
+.hub-intro h1 { margin-bottom: .5rem; }
+
+.scene .nodes {
+  list-style: none;
+  margin: 2rem 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 1rem;
+}
+.node {
+  position: relative;
+  padding: 1rem 1.125rem;
+  background: var(--ds-pure-white);
+  border: 1px solid var(--ds-hairline);
+  border-radius: 14px;
+  cursor: pointer;
+}
+.node-kicker { margin: 0; font-size: .6875rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--ds-signal-orange-700); }
+.node-aside .node-kicker { color: var(--ds-slate); }
+.node-title { margin: .2rem 0 .35rem; font-size: 1.25rem; }
+.node-title a { color: var(--ds-anthracite); text-decoration: none; }
+.node-title a::after { content: ""; position: absolute; inset: 0; border-radius: 14px; } /* toute la carte est le lien */
+.node-title a:focus-visible { outline: none; }
+.node:has(a:focus-visible) { outline: 2px solid var(--ds-royal-blue); outline-offset: 2px; }
+.node-line { margin: 0 0 .5rem; font-size: .875rem; line-height: 1.45; color: var(--ds-slate); }
+.node-tag { margin: 0; font-size: .75rem; font-weight: 600; color: var(--ds-muted); }
+
+.relations-title { margin-top: 2.5rem; font-size: 1.125rem; }
+.relations { margin: .5rem 0 0; padding-left: 1.25rem; font-size: .9375rem; line-height: 1.7; }
+
+/* ---- la scène ---- */
+html.hub-live .scene {
+  position: relative;
+  height: 32rem; /* ajustée par la scène à ce qui reste de la fenêtre */
+  margin-top: .5rem;
+}
+html.hub-live .scene .nodes { display: block; margin: 0; }
+html.hub-live .node {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 12.5rem;
+  padding: .75rem 1rem;
+  z-index: 2;
+  background: transparent;   /* la plaque est peinte par la scène */
+  border-color: transparent;
+  will-change: transform;
+}
+html.hub-live .node .node-line { display: none; } /* dans la scène, la phrase passe dans la fiche */
+html.hub-live .node-title { font-size: 1.125rem; margin: .1rem 0 .2rem; }
+html.hub-live .node-leaving { pointer-events: none; z-index: 4; }
+html.hub-live .hub-extrusion {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  background: var(--ds-pure-white);
+  border: 2px solid var(--ds-signal-orange);
+  border-radius: 14px;
+  pointer-events: none;
+}
+html.hub-live .scene-plane { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+html.hub-live .scene-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+/* la liste des liens reste dans la page pour les lecteurs d'écran et les moteurs de recherche */
+html.hub-live .relations-title, html.hub-live .relations {
+  position: absolute !important;
+  width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
+}
+html.hub-live .hub-main { max-width: 1420px; }
+
+@media print {
+  html.hub-live .scene { height: auto; }
+  html.hub-live .relations-title, html.hub-live .relations { position: static !important; width: auto; height: auto; clip: auto; white-space: normal; }
+  html.hub-live .node .node-line { display: block; }
+  .hub-fiche { display: none !important; }
+  html.hub-live .node { position: static; transform: none !important; border-color: var(--ds-hairline); }
+  .scene-plane { display: none; }
+}
