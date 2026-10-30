@@ -1,6 +1,6 @@
 # [in.gnu6] — copie consommée par le hub
 
-Révision : `b337502c537ee6425ec346fd49961fa11f7be0d3` (gnu6dotlive/in.gnu6, licence MIT : `LICENSE`)
+Révision : `be9ac772cd3d0227b26737efbd0d9a3ed1436c53` (gnu6dotlive/in.gnu6, licence MIT : `LICENSE`)
 
 Empreinte de l'arbre copié (SHA-256) : `5ae6f8512e5403d48b3de554e4406c97b89c4e1cea6579e7ddb93e2b8d2c7a8d`
 
