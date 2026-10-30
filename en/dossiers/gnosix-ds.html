@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>gnosix.ds — a design system a machine can check</title>
+<meta name="description" content="gnosix.ds: a design system written in a form a machine can check — 29 rules, 16 roles, 14 components, 36 gates — and carried to the web, Rust, Android and FigCraft.">
+<script src="../../assets/theme.js"></script>
+<link rel="stylesheet" href="../../assets/style.css">
+<script src="../../assets/sources.js" defer></script>
+<script src="../../assets/nav.js" defer></script>
+</head>
+<body class="has-toc">
+
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="../index.html">gnu6<b>dot</b>live<span>.</span></a>
+    <nav class="site-nav">
+      <a href="../index.html">Home</a>
+      <a href="gnosix-ds.html" aria-current="page">gnosix.ds</a>
+      <a href="https://gnu6dotlive.github.io/prologue/en/">prologue</a>
+    </nav>
+    <a class="lang-switch" href="../../dossiers/gnosix-ds.html" hreflang="fr" lang="fr" title="Version française">FR</a>
+  </div>
+</header>
+
+<main class="has-toc">
+  <aside class="toc-side" aria-label="On this page">
+    <nav>
+      <p class="toc-title">On this page</p>
+      <ol>
+        <li><a href="#in-one-picture">In one picture</a></li>
+        <li><a href="#the-problem">The problem: the same decision, made a thousand times</a></li>
+        <li><a href="#meaning-first">Meaning first, colour second</a></li>
+        <li><a href="#36-gates">36 gates, one command</a></li>
+        <li><a href="#written-once">Written once, carried everywhere</a></li>
+        <li><a href="#measured-names">Names measured, not chosen</a></li>
+        <li><a href="#history">History: up to the first amendment</a></li>
+        <li><a href="#outlook">Outlook: the eye on a native surface</a></li>
+        <li><a href="#what-it-is-not">What it is not</a></li>
+        <li><a href="#who-you-are">What it changes, depending on who you are</a></li>
+        <li><a href="#further">Going further</a></li>
+      </ol>
+    </nav>
+  </aside>
+
+  <div class="snapshot">
+    <p><strong>As of October 29, 2026.</strong> This dossier describes gnosix.ds at commit <code>a7fbfc8</code> (version 4.6.0, with amendment AMD-001). Underlined links lead to the files of that commit, frozen.</p>
+  </div>
+
+  <div class="hero prose">
+    <p class="kicker">Dossier · The design system</p>
+    <h1>gnosix.ds — a design system a machine can check</h1>
+    <p class="lead">A design system is a set of decisions other people make every day. gnosix.ds writes them in a form a machine can check — 29 rules, 16 roles, 14 components — and carries them to the web, Rust, Android and FigCraft, without letting any toolkit become the design system.</p>
+    <p class="tags"><span class="tag">v4.6.0</span> <span class="tag">MIT licence</span> <span class="tag ok">36 gates green</span></p>
+  </div>
+
+  <details class="toc-top">
+    <summary>On this page</summary>
+    <ol>
+      <li><a href="#in-one-picture">In one picture</a></li>
+      <li><a href="#the-problem">The problem</a></li>
+      <li><a href="#meaning-first">Meaning first</a></li>
+      <li><a href="#36-gates">36 gates</a></li>
+      <li><a href="#written-once">Written once</a></li>
+      <li><a href="#measured-names">Measured names</a></li>
+      <li><a href="#history">History</a></li>
+      <li><a href="#outlook">Outlook</a></li>
+      <li><a href="#what-it-is-not">What it is not</a></li>
+      <li><a href="#who-you-are">Who you are</a></li>
+      <li><a href="#further">Going further</a></li>
+    </ol>
+  </details>
+
+  <div class="grid four" style="margin-top:36px">
+    <div class="stat"><span class="value">29</span><span class="caption"><b>numbered rules</b>, each with what is observed and the test that checks it</span></div>
+    <div class="stat"><span class="value">16</span><span class="caption"><b>roles</b>: what a colour is for, on the light ground and on the dark</span></div>
+    <div class="stat"><span class="value">14<small> + 36</small></span><span class="caption"><b>components</b>, and 36 arrangements measured in the field</span></div>
+    <div class="stat"><span class="value">36</span><span class="caption"><b>gates</b> in 24 seconds, the same command on the workstation and in CI</span></div>
+  </div>
+
+  <section>
+    <h2 id="in-one-picture">In one picture</h2>
+    <div class="box analogy">
+      <span class="label">The analogy</span>
+      <p>Think of the <strong>standard metre</strong>: a reference bar, kept apart, and instruments that compare every copy with the original. A copy that grows by a millimetre is rejected, even though nobody meant it to.</p>
+      <p style="margin-bottom:0">gnosix.ds does this for an interface. The colour of a text, the radius of a corner, the name of a component have a reference value; each platform receives a copy, and 36 gates compare each copy with the original. A colour that drifts is a false metre, and the gate sees it.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 id="the-problem">The problem: the same decision, made a thousand times</h2>
+    <div class="prose">
+      <p>Choosing the grey of a caption takes a second. Choosing it in eleven interfaces, with no shared rule, gives hundreds of nearly identical greys.</p>
+      <p>That is what the field audit measured before a single rule was written. It read eleven interfaces — sites, portals, tools — and recorded everything they use that the system does not provide. One holds <strong>1,263 colours</strong> outside the palette, another <strong>421</strong>, a third <strong>294</strong>. Stand-in typefaces, spacings of 9, 10 or 11 pixels where the scale has none.</p>
+      <p>None of these values is a mistake. Each was reasonable on the day it was written. What was missing was a reference to consult — and an instrument that says "stop" when a copy drifts from it.</p>
+    </div>
+    <div class="box note">
+      <span class="label">Remember</span>
+      <p style="margin-bottom:0">The full inventory is public: every colour, typeface and length outside the contract, interface by interface, with an absorption plan saying what to change and in which order (<a class="src" href="https://github.com/gnu6dotlive/gnosix.ds/blob/a7fbfc844421aeeb4eb650ab7233a67838eeded4/profiles/frontend-audit/INVENTORY.md" data-title="The field inventory" data-desc="What each interface uses that the contract does not sanction: colours, names, typefaces, lengths." data-meta="gnosix.ds · profiles/frontend-audit/INVENTORY.md · a7fbfc8">the inventory</a>, <a class="src" href="https://github.com/gnu6dotlive/gnosix.ds/blob/a7fbfc844421aeeb4eb650ab7233a67838eeded4/profiles/frontend-audit/ABSORPTION.md" data-title="The absorption plan" data-desc="What each interface must change to adopt the system, and in which order." data-meta="gnosix.ds · profiles/frontend-audit/ABSORPTION.md · a7fbfc8">the plan</a>).</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 id="meaning-first">Meaning first, colour second</h2>
+    <div class="prose">
+      <p>The system does not say "#111418"; it says "the text that is read first". The colour is only the value of that role on a given ground.</p>
+      <p>The whole contract fits in four tiers, and each is a file you can read:</p>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Tier</th><th>What it holds</th><th>File</th></tr></thead>
+        <tbody>
+          <tr><td data-label="Tier">Rules</td><td data-label="What it holds">29 numbered obligations (<code>COL-001</code>, <code>A11Y-001</code>…), each with what is observed and the test that checks it</td><td data-label="File"><a class="src" href="https://github.com/gnu6dotlive/gnosix.ds/blob/a7fbfc844421aeeb4eb650ab7233a67838eeded4/core/rules.json" data-title="The rules" data-desc="29 numbered obligations, each with an observable and a test." data-meta="gnosix.ds · core/rules.json · a7fbfc8">rules.json</a></td></tr>
+          <tr><td data-label="Tier">Palette</td><td data-label="What it holds">5 approved colours, their ramps, the elevation steps of surfaces, spacing, the typeface</td><td data-label="File"><a class="src" href="https://github.com/gnu6dotlive/gnosix.ds/blob/a7fbfc844421aeeb4eb650ab7233a67838eeded4/core/TOKENS.json" data-title="The palette" data-desc="The approved colours and their ramps, typography, spacing." data-meta="gnosix.ds · core/TOKENS.json · a7fbfc8">TOKENS.json</a></td></tr>
+          <tr><td data-label="Tier">Roles</td><td data-label="What it holds">16 roles — <code>surface</code>, <code>ink</code>, <code>accent</code>, <code>focus</code>, <code>positive</code>… — bound to a value on each ground</td><td data-label="File"><a class="src" href="https://github.com/gnu6dotlive/gnosix.ds/blob/a7fbfc844421aeeb4eb650ab7233a67838eeded4/core/ROLES.json" data-title="The roles" data-desc="What a colour is for, and its value on the light ground and on the dark." data-meta="gnosix.ds · core/ROLES.json · a7fbfc8">ROLES.json</a></td></tr>
+          <tr><td data-label="Tier">Components</td><td data-label="What it holds">14 elements (button, field, badge, dialog…), their states, variants and the accessibility they owe; 36 arrangements</td><td data-label="File"><a class="src" href="https://github.com/gnu6dotlive/gnosix.ds/blob/a7fbfc844421aeeb4eb650ab7233a67838eeded4/core/COMPONENTS.json" data-title="The components" data-desc="14 elements, 29 patterns and 7 primitives, with their roles, states and geometry." data-meta="gnosix.ds · core/COMPONENTS.json · a7fbfc8">COMPONENTS.json</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="prose">
+      <p>Everything else is a <strong>projection</strong>: generated from these files, checked in, and refused as soon as it drifts. A copy is never touched by hand; the original changes, and the copies follow.</p>
+    </div>
+    <h3>An example: the green that carries no text</h3>
+    <div class="prose">
+      <p>The approved green measures <strong>4.09:1</strong> against the light ground. That is enough for a mark, not for a sentence: readable text needs 4.5:1. Rather than cheat on the colour, the system splits two roles. <code>positive</code> is the pip beside the word; <code>positive-surface</code> is the tinted ground behind it. Every pair that carries text is measured at 4.5:1 on both grounds.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 id="36-gates">36 gates, one command</h2>
+    <div class="prose">
+      <p>The same command runs on the workstation and in continuous integration: 36 gates, 24 seconds, one verdict. A gate that changes its mind fails the whole run.</p>
+    </div>
+    <pre class="code"><code>python3 -m tools.ci
+…
+PASS  the severity register is honest
+PASS  the surfaces render as the system carries them
+PASS  test suite
+
+<b>PASS: 36 gates in 23.8s</b></code></pre>
+    <div class="prose">
+      <p>The run above was taken at commit <code>a7fbfc8</code> on October 29, 2026 (<a href="../../receipts/gnosix-ds-ci-a7fbfc8.txt">full run</a>). A few of these gates capture the spirit of the project:</p>
+      <ul>
+        <li><strong>"Every colour is one of ours."</strong> A value that is not in the palette, wherever it appears, fails the gate.</li>
+        <li><strong>"The contrast table measures what the palette says."</strong> Contrast ratios are not copied: they are recomputed on every run.</li>
+        <li><strong>"Every gate says what it must say."</strong> A gate that exits cleanly but prints something other than what <a class="src" href="https://github.com/gnu6dotlive/gnosix.ds/blob/a7fbfc844421aeeb4eb650ab7233a67838eeded4/ci/GATES.md" data-title="What each gate must say" data-desc="One section per gate: the command, and the words its output must contain." data-meta="gnosix.ds · ci/GATES.md · a7fbfc8">the list of expectations</a> states still fails.</li>
+        <li><strong>The eye.</strong> A driven browser renders the system's web surfaces on both grounds, runs an accessibility checker over them, and compares the pictures, byte for byte, with the ones the system carries. Today: 3 surfaces, 0 findings.</li>
+        <li><strong>The severity register.</strong> Where the system and the field differ is recorded, with its severity and its owner. A closed deviation carries a probe: if it comes back, the gate fails.</li>
+      </ul>
+    </div>
+    <div class="box change">
+      <span class="label">What it changes</span>
+      <p style="margin-bottom:0">Nobody has to remember the rules: the machine does. A mistake is found on the workstation, in 24 seconds, not three weeks later in a screenshot.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 id="written-once">Written once, carried everywhere</h2>
+    <div class="prose">
+      <p>A web page, a Rust application and an Android application read the same decision, each in its own language: a CSS sheet, a Rust constant, a Kotlin function.</p>
+    </div>
+    <pre class="code"><code>&lt;body data-gnosix-substrate="dark"&gt;           <b>web</b>: the ground is chosen once
+
+let surface = gnosix_ds::roles::DARK.surface;   <b>Rust</b>: the contract's own constant
+
+val surface = GnosixRoles.of("dark", "surface") <b>Kotlin</b>: the same value</code></pre>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Target</th><th>What it receives</th><th>Where the proof stands</th></tr></thead>
+        <tbody>
+          <tr><td data-label="Target">Web</td><td data-label="What it receives">Three CSS sheets (tokens, roles, components) and a state module</td><td data-label="Where the proof stands">Rendered and looked at by the eye, on every run</td></tr>
+          <tr><td data-label="Target">Rust</td><td data-label="What it receives">A dependency-free crate carrying the contract's constants</td><td data-label="Where the proof stands">Compiled and tested on every run; not yet seen on screen</td></tr>
+          <tr><td data-label="Target">Android</td><td data-label="What it receives">The Compose translation and a sample application</td><td data-label="Where the proof stands">Written, not yet checked on a device</td></tr>
+          <tr><td data-label="Target">Interchange formats</td><td data-label="What it receives">The tokens in DTCG and Style Dictionary, readable by other tools</td><td data-label="Where the proof stands">A gate checks the two say the same thing</td></tr>
+          <tr><td data-label="Target">FigCraft</td><td data-label="What it receives">A design project: boards, the component vocabulary, a published library</td><td data-label="Where the proof stands">Generated, and compared byte for byte with its source</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="prose">
+      <p>This site is itself a client: its colours, its two themes and its boxes come from gnosix.ds. The row of triangles on the left of each box is amendment AMD-001, described below.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 id="measured-names">Names measured, not chosen</h2>
+    <div class="prose">
+      <p>The fourteen components do not come from taste: they are the names several independent interfaces already used, counted once per lineage.</p>
+      <p>Why "per lineage"? Because two copies of one stylesheet are not two votes. Two repositories sharing a sheet written once carry one opinion; counting them twice would pass an opinion off as an agreement. Counted this way, <strong>26 names</strong> appear in at least two lineages; once the parts of one component and the domain-specific patterns are set aside, fourteen remain.</p>
+      <p>The field also used <strong>36 arrangements</strong> the system did not describe: 29 patterns (a ledger, a rail, a notice, a run of prose) and 7 primitives. The contract now describes them as the field's sheet writes them, and a gate checks both ways: an element the contract names that the sheet lacks is a failure, and so is the reverse.</p>
+    </div>
+    <p class="prose" style="margin-top:0">Source: <a class="src" href="https://github.com/gnu6dotlive/gnosix.ds/blob/a7fbfc844421aeeb4eb650ab7233a67838eeded4/profiles/frontend-audit/CONVERGENCE.md" data-title="Convergence" data-desc="The names used by at least two independent lineages, and the repositories that use them." data-meta="gnosix.ds · profiles/frontend-audit/CONVERGENCE.md · a7fbfc8">the convergence table</a>.</p>
+  </section>
+
+  <section>
+    <h2 id="history">History: up to the first amendment</h2>
+    <div class="prose">
+      <p>From the first import to amendment AMD-001, which replaces a rule with a row of triangles: how a change enters a system that refuses to let its copies be touched.</p>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Date</th><th>What happens</th></tr></thead>
+        <tbody>
+          <tr><td data-label="Date">October 20, 2026</td><td data-label="What happens">The public repository begins, at version <strong>3.4.2</strong>. Older versions were distributed as archives and are not reconstructed. By that evening, after 92 commits, the system is at <strong>4.6.0</strong>: roles, components, the eye, the severity register, the field audit.</td></tr>
+          <tr><td data-label="Date">October 21</td><td data-label="What happens">An inquiry into the field's upstream sources enters the repository (10 commits, <a class="src" href="https://github.com/gnu6dotlive/gnosix.ds/pull/2" data-title="PR #2" data-desc="docs: add upstream presentation intake" data-meta="gnu6dotlive/gnosix.ds · merged October 21">PR #2</a>).</td></tr>
+          <tr><td data-label="Date">October 29</td><td data-label="What happens">First amendment, AMD-001: the left rule of a note becomes a row of equal triangles pointing at the content (<a class="src" href="https://github.com/gnu6dotlive/gnosix.ds/pull/3" data-title="PR #3" data-desc="feat(chip): a row of equal triangles pointing at the content — the first amendment (AMD-001)" data-meta="gnu6dotlive/gnosix.ds · merged">PR #3</a>).</td></tr>
+          <tr><td data-label="Date">October 29, later</td><td data-label="What happens">The README still announced 22 gates and 14 roles. The fix becomes a recorded deviation, DEV-022, with a probe that keeps it from coming back (<a class="src" href="https://github.com/gnu6dotlive/gnosix.ds/pull/4" data-title="PR #4" data-desc="docs: the README counts the gates and roles right (DEV-022)" data-meta="gnu6dotlive/gnosix.ds · open">PR #4</a>, in review).</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h3>Why an "amendment"</h3>
+    <div class="prose">
+      <p>The stylesheet the system ships is cut from a historical copy that three repositories vendor byte for byte. Writing the triangles into that copy would have been erased by the next cut, or would have made the copy lie about what it is. So the system writes its changes apart, in a layer of amendments appended last: it wins the cascade, and the historical copy stays the one the field knows.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 id="outlook">Outlook: the eye on a native surface</h2>
+    <div class="prose">
+      <p>Today, the eye looks at web pages. Next: looking at native screens too, the ones gnosix and GPUI draw.</p>
+      <p>The answer is not a given, and the roadmap says so: first one has to find out whether the desktop's renderer can run without a display. If it can, native surfaces will be looked at like web pages; if not, the reason will be recorded. Either outcome counts as proof.</p>
+      <p>The rest of the <a class="src" href="https://github.com/gnu6dotlive/gnosix.ds/blob/a7fbfc844421aeeb4eb650ab7233a67838eeded4/ROADMAP.md" data-title="The roadmap" data-desc="Every task with its objective, where it lands, what proves it finished, what it needs and what it costs." data-meta="gnosix.ds · ROADMAP.md · a7fbfc8">roadmap</a> follows the same format: for each task, where it lands, what proves it is finished, what it needs and what it costs. Two interfaces have already adopted the system, at version 4.2.1: the documentation portal and the engineering corpus, with zero colours outside the contract. The others will follow one by one, by the same six-step method, on a branch.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 id="what-it-is-not">What it is not</h2>
+    <div class="box limit">
+      <span class="label">The limits, plainly</span>
+      <ul style="margin-bottom:0">
+        <li><strong>Not a component library.</strong> The repository ships no ready-made React buttons: it ships decisions, and their translations per platform.</li>
+        <li><strong>Not yet seen on a native screen.</strong> The Rust and Android translations are written; Rust compiles and passes its tests, but neither has been looked at on screen yet, and Android has not been tried on a device.</li>
+        <li><strong>Not finished.</strong> The register lists deviations that are still open, published with their severity and their owner.</li>
+        <li><strong>The field is mostly private.</strong> Of the eleven audited interfaces, most are not public; the inventory is.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2 id="who-you-are">What it changes, depending on who you are</h2>
+    <div class="grid three">
+      <div class="card">
+        <h4>Designer</h4>
+        <p style="margin-bottom:0">A colour or spacing decision is written once, with its reason, and it arrives unchanged in the browser, the native application and the design tool.</p>
+      </div>
+      <div class="card">
+        <h4>Developer</h4>
+        <p style="margin-bottom:0">No values to copy: you read the role. And one dependency-free command tells you in 24 seconds whether a change breaks a rule.</p>
+      </div>
+      <div class="card">
+        <h4>Decision-maker</h4>
+        <p style="margin-bottom:0">A visual identity that does not drift from one product to the next, and a measured account of what is left to harmonise, interface by interface.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 id="further">Going further</h2>
+    <div class="prose">
+      <ul>
+        <li>The repository: <a class="src" href="https://github.com/gnu6dotlive/gnosix.ds/tree/a7fbfc844421aeeb4eb650ab7233a67838eeded4" data-title="gnosix.ds" data-desc="A portable interface contract: rules, tokens, roles, components and reference scenes." data-meta="github.com/gnu6dotlive/gnosix.ds · a7fbfc8">gnu6dotlive/gnosix.ds</a>, MIT licence.</li>
+        <li>The qualification run behind this dossier: <a href="../../receipts/gnosix-ds-ci-a7fbfc8.txt">receipts/gnosix-ds-ci-a7fbfc8.txt</a>.</li>
+        <li>The first four dossiers — gnosix, gnostral.rs, Calix, in.gnu6 — in <a href="https://gnu6dotlive.github.io/prologue/en/">prologue</a>, the October 29 snapshot.</li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="inner">
+    <p>Dossier written by <a href="https://github.com/tension-atoi">tension-atoi</a> · as of October 29, 2026 · CC BY 4.0.</p>
+  </div>
+</footer>
+</body>
+</html>
