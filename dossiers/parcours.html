@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Parcours — compétences et preuves</title>
+<meta name="description" content="Les compétences de tension-atoi, chacune reliée à ce qu'elle a produit et aux fichiers qui le montrent : Rust, Wayland, GPU, TypeScript, design system, méthode de preuve, publication.">
+<!-- head:start -->
+<link rel="canonical" href="https://gnu6dotlive.github.io/dossiers/parcours.html">
+<link rel="alternate" hreflang="fr" href="https://gnu6dotlive.github.io/dossiers/parcours.html">
+<link rel="alternate" hreflang="en" href="https://gnu6dotlive.github.io/en/dossiers/parcours.html">
+<link rel="alternate" hreflang="x-default" href="https://gnu6dotlive.github.io/dossiers/parcours.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="gnu6dotlive">
+<meta property="og:title" content="Parcours — compétences et preuves">
+<meta property="og:description" content="Les compétences de tension-atoi, chacune reliée à ce qu&#x27;elle a produit et aux fichiers qui le montrent : Rust, Wayland, GPU, TypeScript, design system, méthode de preuve, publication.">
+<meta property="og:url" content="https://gnu6dotlive.github.io/dossiers/parcours.html">
+<meta property="og:image" content="https://gnu6dotlive.github.io/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="fr_CA">
+<meta name="twitter:card" content="summary_large_image">
+<!-- head:end -->
+<script src="../assets/theme.js"></script>
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/sources.js" defer></script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="../index.html">gnu6<b>dot</b>live<span>.</span></a>
+    <nav class="site-nav">
+      <a href="../index.html">Accueil</a>
+      <a href="gnosix-ds.html">gnosix.ds</a>
+      <a href="blob-in.html">blob.in</a>
+      <a href="parcours.html" aria-current="page">Parcours</a>
+      <a href="https://gnu6dotlive.github.io/prologue/">prologue</a>
+    </nav>
+    <a class="lang-switch" href="../en/dossiers/parcours.html" hreflang="en" lang="en" title="English version">EN</a>
+  </div>
+</header>
+
+<main>
+  <div class="hero prose">
+    <p class="kicker">Parcours · tension-atoi</p>
+    <h1>Compétences, et leurs preuves</h1>
+    <p class="lead">Chaque ligne relie une compétence à ce qu'elle a produit, et aux fichiers qui le montrent. Rien ici n'est déclaratif : tout se vérifie, échecs compris.</p>
+  </div>
+
+  <section>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Compétence</th><th>Ce qu'elle a produit</th><th>Preuves</th></tr></thead>
+        <tbody>
+          <tr><td data-label="Compétence"><b>Rust système, applications de bureau natives</b></td><td data-label="Ce qu'elle a produit">gnosix : un bureau Linux complet, 182 325 lignes de Rust en 38 paquets, qui dessine sa barre, son deck et ses fenêtres avec GPUI. Calix : une interface native de gestion de paquets, Rust et GPUI, au-dessus d'un moteur écrit en Zig.</td><td data-label="Preuves"><a href="https://gnu6dotlive.github.io/prologue/gnosix.html">dossier gnosix</a> · <a href="https://gnu6dotlive.github.io/prologue/calix.html">dossier Calix</a> · <a href="https://github.com/gnu6dotlive/gnosix">dépôt gnosix</a></td></tr>
+          <tr><td data-label="Compétence"><b>Wayland et intégration au système</b></td><td data-label="Ce qu'elle a produit">gnosix vit dans la session Wayland (Hyprland) : écrans, bureaux, notifications, verrouillage par PAM, session par logind. blob.in échange ses images par mémoire partagée scellée, et ses essais pilotent une vraie fenêtre Hyprland.</td><td data-label="Preuves"><a href="https://gnu6dotlive.github.io/prologue/gnosix.html">dossier gnosix</a> · <a href="../dossiers/blob-in.html">dossier blob.in</a></td></tr>
+          <tr><td data-label="Compétence"><b>GPU, CUDA, Vulkan, inférence locale</b></td><td data-label="Ce qu'elle a produit">gnostral.rs fait tourner de gros modèles sur une carte graphique modeste : 2,12 × plus vite que la version précédente du même moteur, mesuré et audité (Q-010). in.gnu6 a présenté 9 370 images en 125 s sans en écarter une, sur Vulkan. blob.in calcule sur processeur, CUDA ou Vulkan, sans repli silencieux.</td><td data-label="Preuves"><a href="https://gnu6dotlive.github.io/prologue/gnostral.html">dossier gnostral.rs</a> · <a href="https://gnu6dotlive.github.io/prologue/ingnu6.html">dossier in.gnu6</a> · <a href="../dossiers/blob-in.html">dossier blob.in</a></td></tr>
+          <tr><td data-label="Compétence"><b>TypeScript, moteurs de scène et d'interaction</b></td><td data-label="Ce qu'elle a produit">in.gnu6 : un moteur de scènes sans affichage, ses lois écrites et testées (MQ-00 à MQ-15), un rendu navigateur PixiJS. Ce hub en est un client : la scène de l'accueil, ses ressorts et ses relations viennent du moteur.</td><td data-label="Preuves"><a href="https://gnu6dotlive.github.io/prologue/ingnu6.html">dossier in.gnu6</a> · <a href="https://github.com/gnu6dotlive/gnu6dotlive.github.io/blob/main/src/hub.ts">src/hub.ts</a></td></tr>
+          <tr><td data-label="Compétence"><b>Design system, accessibilité</b></td><td data-label="Ce qu'elle a produit">gnosix.ds : 29 règles, 16 rôles, 14 composants, porté vers le web, Rust, Android et FigCraft ; 36 contrôles, dont un navigateur qui regarde les pixels et passe un outil d'accessibilité ; chaque texte mesuré à 4,5:1 sur les deux fonds.</td><td data-label="Preuves"><a href="../dossiers/gnosix-ds.html">dossier gnosix.ds</a> · <a href="../receipts/gnosix-ds-ci-a7fbfc8.txt">relevé des 36 contrôles</a></td></tr>
+          <tr><td data-label="Compétence"><b>Méthode de preuve, qualité</b></td><td data-label="Ce qu'elle a produit">Chaque capacité porte son niveau de preuve (prouvé, qualifié, ouvert) ; les essais ratés restent au dossier ; les contrôles disent ce qu'ils doivent dire ; la qualification tourne sur le poste avant tout envoi. La méthode elle-même est publique.</td><td data-label="Preuves"><a href="https://gnu6dotlive.github.io/prologue/methode.html">la méthode</a> · <a href="https://gnu6dotlive.github.io/prologue/verifier.html">vérifier un chiffre</a> · <a href="https://github.com/gnu6dotlive/engineering-corpus">engineering-corpus</a></td></tr>
+          <tr><td data-label="Compétence"><b>Publication, licences, sécurité de la diffusion</b></td><td data-label="Ce qu'elle a produit">Des projections publiques à sens unique depuis des dépôts privés, découpées par un outil et testées seules avant d'être poussées ; audits de licence (293 dépendances vérifiées pour blob.in) et de secrets (gitleaks) ; décisions de licence consignées.</td><td data-label="Preuves"><a href="https://github.com/gnu6dotlive/blob.in/blob/4278b0600a807c3055f9de557025357cd5dc24c4/docs/LICENCE-DECISION-20261030.md">décision de licence de blob.in</a> · <a href="../dossiers/blob-in.html">dossier blob.in</a></td></tr>
+          <tr><td data-label="Compétence"><b>Expliquer, en deux langues</b></td><td data-label="Ce qu'elle a produit">prologue : quatre dossiers pour non-spécialistes, en français et en anglais, avec graphiques interactifs, thème sombre et PDF ; chaque chiffre relié à sa source figée. Ce hub prolonge le même travail.</td><td data-label="Preuves"><a href="https://gnu6dotlive.github.io/prologue/">prologue</a> · <a href="https://gnu6dotlive.github.io/prologue/en/">prologue (EN)</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="box note">
+      <span class="label">Comment lire ce tableau</span>
+      <p style="margin-bottom:0">Les dossiers disent ce qui est prouvé, ce qui est seulement qualifié et ce qui reste ouvert ; les limites y sont écrites aussi nettement que les réussites. Un chiffre se vérifie en suivant son lien jusqu'au fichier, à un commit figé.</p>
+    </div>
+    <div class="prose">
+      <p>Pour me joindre ou voir le reste : <a href="https://github.com/tension-atoi">github.com/tension-atoi</a>.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="inner">
+    <p>Rédigé par <a href="https://github.com/tension-atoi">tension-atoi</a> · 30 octobre 2026 · CC BY 4.0.</p>
+  </div>
+</footer>
+</body>
+</html>

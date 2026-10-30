@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>blob.in — a surface that invents no pixel</title>
+<meta name="description" content="blob.in: the native Wayland surface that displays the frames a shape engine computes, through a strict contract — never replacing what fails. 225 tests, 19 provoked faults.">
+<!-- head:start -->
+<link rel="canonical" href="https://gnu6dotlive.github.io/en/dossiers/blob-in.html">
+<link rel="alternate" hreflang="fr" href="https://gnu6dotlive.github.io/dossiers/blob-in.html">
+<link rel="alternate" hreflang="en" href="https://gnu6dotlive.github.io/en/dossiers/blob-in.html">
+<link rel="alternate" hreflang="x-default" href="https://gnu6dotlive.github.io/dossiers/blob-in.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="gnu6dotlive">
+<meta property="og:title" content="blob.in — a surface that invents no pixel">
+<meta property="og:description" content="blob.in: the native Wayland surface that displays the frames a shape engine computes, through a strict contract — never replacing what fails. 225 tests, 19 provoked faults.">
+<meta property="og:url" content="https://gnu6dotlive.github.io/en/dossiers/blob-in.html">
+<meta property="og:image" content="https://gnu6dotlive.github.io/assets/og-en.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<!-- head:end -->
+<script src="../../assets/theme.js"></script>
+<link rel="stylesheet" href="../../assets/style.css">
+<script src="../../assets/sources.js" defer></script>
+<script src="../../assets/nav.js" defer></script>
+</head>
+<body class="has-toc">
+
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="../index.html">gnu6<b>dot</b>live<span>.</span></a>
+    <nav class="site-nav">
+      <a href="../index.html">Home</a>
+      <a href="gnosix-ds.html">gnosix.ds</a>
+      <a href="blob-in.html" aria-current="page">blob.in</a>
+      <a href="parcours.html">Track record</a>
+      <a href="https://gnu6dotlive.github.io/prologue/en/">prologue</a>
+    </nav>
+    <a class="lang-switch" href="../../dossiers/blob-in.html" hreflang="fr" lang="fr" title="Version française">FR</a>
+  </div>
+</header>
+
+<main class="has-toc">
+  <aside class="toc-side" aria-label="On this page">
+    <nav>
+      <p class="toc-title">On this page</p>
+      <ol>
+        <li><a href="#en-une-image">In one picture</a></li>
+        <li><a href="#ce-que-fait-la-surface">What the surface does</a></li>
+        <li><a href="#le-contrat">The BLOB-FRAME-v1 contract</a></li>
+        <li><a href="#les-pannes">Nineteen faults, provoked on purpose</a></li>
+        <li><a href="#ce-qui-est-prouve">What is proven, and within what frame</a></li>
+        <li><a href="#historique">History</a></li>
+        <li><a href="#ce-que-ce-n-est-pas">What it is not</a></li>
+        <li><a href="#selon-qui-vous-etes">What it changes, depending on who you are</a></li>
+        <li><a href="#pour-aller-plus-loin">Going further</a></li>
+      </ol>
+    </nav>
+  </aside>
+
+  <div class="snapshot">
+    <p><strong>As of October 30, 2026.</strong> This dossier describes blob.in 0.1.0, the public projection at commit <code>4278b06</code>. Underlined links lead to the files of that commit, frozen.</p>
+  </div>
+
+  <div class="hero prose">
+    <p class="kicker">Dossier · The native surface</p>
+    <h1>blob.in — a surface that invents no pixel</h1>
+    <p class="lead">The surface computes no geometry: every pixel of the view comes from a frame received from the engine, through a strict contract. When something fails, it shows it; it never replaces it.</p>
+    <p class="tags"><span class="tag">0.1.0</span> <span class="tag">MIT licence</span> <span class="tag partial">engine not published</span></p>
+  </div>
+
+  <details class="toc-top">
+    <summary>On this page</summary>
+    <ol>
+      <li><a href="#en-une-image">In one picture</a></li>
+      <li><a href="#ce-que-fait-la-surface">What the surface does</a></li>
+      <li><a href="#le-contrat">The contract</a></li>
+      <li><a href="#les-pannes">The faults</a></li>
+      <li><a href="#ce-qui-est-prouve">What is proven</a></li>
+      <li><a href="#historique">History</a></li>
+      <li><a href="#ce-que-ce-n-est-pas">What it is not</a></li>
+      <li><a href="#selon-qui-vous-etes">Who you are</a></li>
+      <li><a href="#pour-aller-plus-loin">Going further</a></li>
+    </ol>
+  </details>
+
+  <div class="grid four" style="margin-top:36px">
+    <div class="stat"><span class="value">0</span><span class="caption">pixels of the view <b>computed by the surface</b>: everything comes from the engine</span></div>
+    <div class="stat"><span class="value">19</span><span class="caption"><b>provoked faults</b> from a test server, each shown, never hidden</span></div>
+    <div class="stat"><span class="value">3</span><span class="caption">compute engines: <b>CPU, CUDA, Vulkan</b>, with no silent fallback</span></div>
+    <div class="stat"><span class="value">225</span><span class="caption"><b>tests</b> passing in the public version, built on its own</span></div>
+  </div>
+
+  <section>
+    <h2 id="en-une-image">In one picture</h2>
+    <div class="box analogy">
+      <span class="label">The analogy</span>
+      <p>Think of a <strong>projectionist</strong>. They project the reel they are given, without retouching it. If a frame arrives burnt, they show it burnt and note it in the log; they do not swap in a frame of their own so the audience sees nothing.</p>
+      <p style="margin-bottom:0">blob.in is that projectionist. An engine computes shapes; the surface puts them on screen, checks every frame it receives, and says out loud what is wrong.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 id="ce-que-fait-la-surface">What the surface does</h2>
+    <div class="prose">
+      <p>blob.in is a native desktop application, written in Rust, for Wayland (Hyprland). It shows soft shapes: circles that join, subtract, blend into rounded unions. The engine describes them as a <strong>signed distance field</strong> — for every point, the distance to the shape's edge — and draws a frame from it.</p>
+      <p>The window offers six "labs" (primitives, Boolean operations, smooth union, field, normals, material), four ways to view the same computation (distance, normals, coverage, lighting) and a choice of compute engine: CPU, CUDA or Vulkan. You drag a circle with the mouse, change its radius with the wheel, add or remove a shape.</p>
+    </div>
+    <figure>
+      <img src="../../assets/blobin/runtime-cuda-1000x800.png" alt="The blob.in window: on the left, five circles blended into one soft, lit shape; on the right, the control panel, with the badge 'RUNTIME blob.in (Render Bridge)' and the CUDA engine selected.">
+      <figcaption><b>A real frame from the engine.</b> Capture from the end-to-end run of October 10, 2026: a 1,000 × 800 Hyprland window, CUDA engine, qualification <code>CUDA05F_GATE_PASS</code> shown verbatim at the top left. "Lit" mode is shading computed from the normals, in 2D: it is not a 3D render. Source: <a class="src" href="https://github.com/gnu6dotlive/blob.in/blob/4278b0600a807c3055f9de557025357cd5dc24c4/evidence/runs/e2e-runtime-cuda-20261010T044827Z/run.json" data-title="End-to-end run, CUDA" data-desc="19 checks passed: native window, BLOB-FRAME-v1 session, four window sizes." data-meta="blob.in · evidence/runs/e2e-runtime-cuda-20261010T044827Z/run.json · 4278b06">run.json</a>.</figcaption>
+    </figure>
+    <div class="prose">
+      <p>The <em>Diagnostics</em> panel shows the real data of the session and of the frame on screen: the requested and the actual engine, the qualification copied verbatim, the dimensions, the measured round trip. <strong>No metric is invented</strong>: a field that was not measured is not shown.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 id="le-contrat">The BLOB-FRAME-v1 contract</h2>
+    <div class="prose">
+      <p>The engine and the surface are two programs. They talk over a local <strong>Unix socket</strong>; each frame travels in a region of shared memory (a <em>memfd</em>) that the engine <strong>seals</strong> before handing it over: once sealed, nobody can change it.</p>
+      <p>Before displaying, the surface checks the requested size, the exact stride between two rows of pixels, the format, the geometry fingerprint, the scene revision, the request number, and that the actual engine is the one requested. If a single point fails, the frame is refused, and the reason is shown.</p>
+    </div>
+    <div class="box note">
+      <span class="label">Remember</span>
+      <p style="margin-bottom:0">"No fallback: a failure of the requested backend is shown, never replaced," the interface itself says. If you ask for CUDA and the card refuses, the surface does not quietly switch to the CPU: it says so. See <a class="src" href="https://github.com/gnu6dotlive/blob.in/tree/4278b0600a807c3055f9de557025357cd5dc24c4/crates/blob-frame" data-title="The contract, client side" data-desc="Types, validation, transport, memfd and session of BLOB-FRAME-v1." data-meta="blob.in · crates/blob-frame · 4278b06">crates/blob-frame</a>.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 id="les-pannes">Nineteen faults, provoked on purpose</h2>
+    <div class="prose">
+      <p>To check that it refuses what it must refuse, the surface has its own isolated <strong>test server</strong>, which can provoke nineteen faults on demand. A "TEST SERVER" banner stays on screen while it is connected: its test patterns are never presented as engine frames.</p>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Family</th><th>Provoked faults</th></tr></thead>
+        <tbody>
+          <tr><td data-label="Family">The engine goes silent</td><td data-label="Provoked faults">render error, timeout, connection closed, no answer</td></tr>
+          <tr><td data-label="Family">The frame lies about itself</td><td data-label="Provoked faults">wrong size, truncated frame, unsealed memory, padded rows, unexpected format, malformed fingerprint</td></tr>
+          <tr><td data-label="Family">The engine cheats</td><td data-label="Provoked faults">another engine than the one requested (the silent fallback), wrong revision, answer to another request</td></tr>
+          <tr><td data-label="Family">The message breaks the contract</td><td data-label="Provoked faults">unknown field, two memory regions attached, none attached, oversized message, unreadable message, wrong protocol version</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="prose" style="margin-top:0">Source: <a class="src" href="https://github.com/gnu6dotlive/blob.in/blob/4278b0600a807c3055f9de557025357cd5dc24c4/crates/blob-frame-testserver/src/lib.rs" data-title="The test server" data-desc="The injectable faults, each documented." data-meta="blob.in · crates/blob-frame-testserver/src/lib.rs · 4278b06">blob-frame-testserver</a>.</p>
+  </section>
+
+  <section>
+    <h2 id="ce-qui-est-prouve">What is proven, and within what frame</h2>
+    <div class="prose">
+      <p>The public version was built on its own, from its own content alone: <strong>225 tests pass</strong>. Two are set aside by default, because they read engine frames kept outside the repository.</p>
+      <p>The end-to-end runs open a real window under Hyprland, resize it to four sizes, and capture only the window's rectangle each time. They ran with all three engines. A scripted exercise chains fourteen gestures — moving a circle, changing a radius, switching operation, view, engine — and checks at each step that the frame follows.</p>
+    </div>
+    <figure>
+      <img src="../../assets/blobin/exercise-cuda-lit.png" alt="The blob.in window after a scripted gesture: the blended shape has grown on one side, the panel shows the Smooth lab and the CUDA engine.">
+      <figcaption><b>The gesture, then the frame that follows.</b> Step 02 of the scripted exercise: circle no. 2's radius is multiplied by 1.25; the surface requests a new frame, the engine computes it, and the check confirms it matches the gesture. Source: <a class="src" href="https://github.com/gnu6dotlive/blob.in/blob/4278b0600a807c3055f9de557025357cd5dc24c4/evidence/runs/e2e-runtime-exercise-cuda-20261010T044855Z/run.json" data-title="Scripted exercise, CUDA" data-desc="Fourteen gestures, each followed by a checked frame and a capture." data-meta="blob.in · evidence/runs/e2e-runtime-exercise-cuda-20261010T044855Z/run.json · 4278b06">run.json</a>.</figcaption>
+    </figure>
+    <div class="prose">
+      <p>The same runs measure the round trip between a gesture and the displayed frame: 14 to 35 ms on the CPU, 289 to 379 ms on Vulkan, 470 to 670 ms on CUDA. Speed is not what this surface is about, and <strong>no frame rate is claimed</strong>.</p>
+      <p>Since then, the repository has started drawing its own interface without an off-the-shelf toolkit: controls, strokes, Bézier curves, polygons with holes, gestures. Each step carries a report and a bounded verdict ("scoped pass"), qualified headless or in an isolated compositor.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 id="historique">History</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Date</th><th>What happens</th></tr></thead>
+        <tbody>
+          <tr><td data-label="Date">October 10, 2026</td><td data-label="What happens">The client side of the BLOB-FRAME-v1 contract and the test server arrive; the same day, the first end-to-end runs with the real engine, on all three compute engines (30 commits).</td></tr>
+          <tr><td data-label="Date">October 12</td><td data-label="What happens">The busiest day (39 commits): the native interface begins — controls, strokes, fills — and gestures are qualified in an isolated compositor.</td></tr>
+          <tr><td data-label="Date">October 13–14</td><td data-label="What happens">Scrolling and hover, axis lock for drags, list cursor.</td></tr>
+          <tr><td data-label="Date">October 30</td><td data-label="What happens">First public version, 0.1.0, under the MIT licence: a single commit, cut from the private repository by a tool, built and tested on its own before being pushed.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2 id="ce-que-ce-n-est-pas">What it is not</h2>
+    <div class="box limit">
+      <span class="label">The limits, plainly</span>
+      <ul style="margin-bottom:0">
+        <li><strong>Not the engine.</strong> The engine that computes the shapes is not published yet; without it, the public version runs with the test server and its patterns.</li>
+        <li><strong>Not fast, not yet.</strong> No 60-frames-per-second rate is qualified; measured round trips go up to 670 ms.</li>
+        <li><strong>Not a 3D render.</strong> The lighting is 2D shading computed from the normals.</li>
+        <li><strong>Not yet tried with the real pointer.</strong> Gestures are qualified headless and in an isolated compositor; the test with a real mouse in the session remains open.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2 id="selon-qui-vous-etes">What it changes, depending on who you are</h2>
+    <div class="grid three">
+      <div class="card"><h4>Developer</h4><p style="margin-bottom:0">A complete example of a boundary between two processes: sealed shared memory, a contract checked field by field, and a fault server to prove it.</p></div>
+      <div class="card"><h4>Quality lead</h4><p style="margin-bottom:0">Every refusal has its test, every capture its fingerprint, and the surface never passes a test frame off as a real one.</p></div>
+      <div class="card"><h4>Decision-maker</h4><p style="margin-bottom:0">Software that says when it fails rather than pretending: the condition for trusting it with a machine.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2 id="pour-aller-plus-loin">Going further</h2>
+    <div class="prose">
+      <ul>
+        <li>The repository: <a class="src" href="https://github.com/gnu6dotlive/blob.in/tree/4278b0600a807c3055f9de557025357cd5dc24c4/" data-title="blob.in" data-desc="The native Wayland surface, public projection, MIT licence." data-meta="blob.in ·  · 4278b06">gnu6dotlive/blob.in</a>.</li>
+        <li>The licence decision and what is not published: <a class="src" href="https://github.com/gnu6dotlive/blob.in/blob/4278b0600a807c3055f9de557025357cd5dc24c4/docs/LICENCE-DECISION-20261030.md" data-title="Licence decision" data-desc="Why MIT, what was checked, what stays private." data-meta="blob.in · docs/LICENCE-DECISION-20261030.md · 4278b06">LICENCE-DECISION-20261030.md</a>.</li>
+        <li>The native rendering research, on the scene engine side: <a href="https://gnu6dotlive.github.io/prologue/en/ingnu6.html">the in.gnu6 dossier</a>.</li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="inner">
+    <p>Dossier written by <a href="https://github.com/tension-atoi">tension-atoi</a> · as of October 30, 2026 · CC BY 4.0.</p>
+  </div>
+</footer>
+</body>
+</html>

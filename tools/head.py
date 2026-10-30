@@ -10,7 +10,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 BASE = "https://gnu6dotlive.github.io/"
-PAIRS = [("index.html", "en/index.html"), ("dossiers/gnosix-ds.html", "en/dossiers/gnosix-ds.html")]
+PAIRS = [("index.html", "en/index.html"), ("dossiers/gnosix-ds.html", "en/dossiers/gnosix-ds.html"),
+         ("dossiers/blob-in.html", "en/dossiers/blob-in.html"), ("dossiers/parcours.html", "en/dossiers/parcours.html")]
 
 
 def url(page: str) -> str:
